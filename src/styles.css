@@ -1,2 +1,35 @@
-/* You can add global styles to this file, and also import other style files */
-p { color : blue}
+@import url('https://fonts.googleapis.com/css2?family=Abel&display=swap');
+* {
+    font-family: 'Abel', sans-serif;
+    background-color: black;
+}
+
+.nav-tabs {
+    font-size: 40px;
+    color: black !important;
+    border-radius: none !important;
+    border: none !important;
+    align-items: right;
+}
+
+.nav-tabs .nav-link {
+    color: white;
+    border-top-left-radius: 0 !important;
+    border-top-right-radius: 0 !important;
+    border: none !important;
+}
+
+.nav-link:hover {
+    background-color: white;
+    color: black !important;
+    border: none;
+  }
+
+.customNav {
+    top: 25%;
+    left: 3%;
+    width: 100%;
+    margin: 0;
+    background-color:black;
+}
+  
