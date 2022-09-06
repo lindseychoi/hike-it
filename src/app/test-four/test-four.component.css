@@ -1,5 +1,17 @@
-p {
+.quiz-buttons {
+    font-size: 40px;
+    background-color: white;
+    color: black;
+    padding: 5px;
+}
+
+.white-text {
     font-size: 50px;
     color: white;
-    padding: 10%;
+    padding: 7%;
 }
+
+.center-of-div {
+    text-align: center; 
+}
+
