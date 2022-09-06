@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+
 // GLOBALS VARIABLES
 //////////////////////////////////////////////////////////////////////
 
@@ -94,9 +95,11 @@ export class TestFourComponent implements OnInit {
     if (parent != undefined) {
       var btn = document.createElement("button");
       btn.innerHTML = buttonText;
-      btn.classList.add("quiz-buttons");
-      btn.classList.add("btn");
-      btn.classList.add("btn-primary");
+      btn.classList.add(
+        "btn",
+        "btn-primary",
+        "answer-buttons"
+      );
       parent.appendChild(btn);
       return btn;
     }
