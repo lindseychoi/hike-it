@@ -35,8 +35,8 @@
 
 .answer-buttons {
     font-size: 25px !important;
-    background-color: white !important;
-    color: black !important;
+    background-color: rgb(167, 56, 169) !important;
+    color: white !important;
     border-radius: 0.375rem;
     border: none !important;
     width: 150px;

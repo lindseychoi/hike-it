@@ -4,16 +4,17 @@
     <div id="submitInitials"></div>
     <ul id="scorer-list"></ul>
     <div class="container">
-        <div class="row">
+        <div class="row newChoiceSpaces">
             <div id="choiceSpace" class="center-of-div col-md-4"></div>
             <div id="choiceSpace1" class="center-of-div col-md-4"></div>
             <div id="choiceSpace2" class="center-of-div col-md-4"></div>
         </div>
+        <div id="timer" class="col-md-12"></div>
     </div>
     <div id="try-again" class="center-of-div"></div>
 
     <div class="center-of-div">
         <button (click)="startQuiz()" class="btn btn-primary quiz-buttons" id="strButton">Indeed</button>
-        <div id="timer"></div>
+        <div id="timer" class="white-text">{{interval}}</div>
     </div>
 </div>
