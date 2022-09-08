@@ -1,3 +1,4 @@
+import { BuiltinTypeName } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
 
 // GLOBALS VARIABLES
@@ -24,9 +25,12 @@ var quizQuestions =
   templateUrl: './test-four.component.html',
   styleUrls: ['./test-four.component.css']
 })
+
+
 export class TestFourComponent implements OnInit {
   timeLeft = 35;
   interval: any;
+  score: any;
 
   constructor() {
     console.log("called the constructor"); 
@@ -38,36 +42,44 @@ export class TestFourComponent implements OnInit {
 
   startQuiz(){
     var button = document.getElementById("strButton");
+    var tryAgainButton = document.getElementById("try-again-button");
     var questionSpaceId = "questionSpace";
-    var questionCounter = 0;
     var choiceSpaceId = "choiceSpace";
     var choiceSpace = document.getElementById("choiceSpace");
     var choiceSpaceId1 = "choiceSpace1";
     var choiceSpace1 = document.getElementById("choiceSpace1");
     var choiceSpaceId2 = "choiceSpace2";
     var choiceSpace2 = document.getElementById("choiceSpace2");
-
+    this.score = 35;
+    console.log("my score is now " + this.score);
     if (button != undefined) {
       button.style.display = "none";
     }
     else {
       console.log("null");
     }
+
+    if (tryAgainButton != undefined) {
+      tryAgainButton.style.display = "none";
+    } else {
+      console.log("no try again button at this time");
+    }
+
     this.countDown();
     // ask questions
     this.setObjTextById(questionSpaceId, quizQuestions[0].question);
 
     if (choiceSpace && choiceSpace1 && choiceSpace2) {
-      this.createButton(choiceSpaceId, quizQuestions[questionCounter].choices[0]);
-      this.createButton(choiceSpaceId1, quizQuestions[questionCounter].choices[1]);
-      this.createButton(choiceSpaceId2, quizQuestions[questionCounter].choices[2]);
+      this.createButton(choiceSpaceId, quizQuestions[0].choices[0]);
+      this.createButton(choiceSpaceId1, quizQuestions[0].choices[1]);
+      this.createButton(choiceSpaceId2, quizQuestions[0].choices[2]);
     } else {
       console.log("null");
     }
     if (choiceSpace && choiceSpace1 && choiceSpace2) {
       choiceSpace.addEventListener("click", (event: Event) => {this.wrongToNextQues()}); 
-      choiceSpace1?.addEventListener("click", (event: Event) => {this.wrongToNextQues()});
-      choiceSpace2?.addEventListener("click", (event: Event) => {this.nextQuestion()});
+      choiceSpace1.addEventListener("click", (event: Event) => {this.wrongToNextQues()});
+      choiceSpace2.addEventListener("click", (event: Event) => {this.nextQuestion()});
       console.log("you are at the end of startQuiz");
     } else {
       console.log("null")
@@ -113,7 +125,9 @@ export class TestFourComponent implements OnInit {
 
   wrongToNextQues() {
     console.log("i got clicked 1");
-    this.timeLeft -= 5;
+    this.score = 25;
+    console.log("my score is now " + this.score);
+    // this.timeLeft -= 5;
     this.nextQuestion();
   }
 
@@ -136,6 +150,7 @@ export class TestFourComponent implements OnInit {
 
   nextQuestion() {
     this.clearQuestion();
+    console.log("my score is currently " + this.score + " on the second question");
     var questionSpaceId = "questionSpace";
     var choiceSpaceId = "choiceSpace";
     var choiceSpace = document.getElementById(choiceSpaceId);
@@ -165,12 +180,14 @@ export class TestFourComponent implements OnInit {
 
   wrongToLastQuest() {
     console.log("you clicked the answer and were sent to wrongToLastQuest function");
-    this.timeLeft -= 5;
+    this.score -= 10;
+    console.log("my score is now " + this.score);
+    // this.timeLeft -= 5;
     this.lastQuestion();  
   }
 
   lastQuestion() {
-    console.log("you clicked the answer and were sent to lastQuestion function");
+    console.log("you're on the last question and your score is " + this.score);
     this.clearQuestion();
     var questionSpaceId = "questionSpace";
     var choiceSpaceId = "choiceSpace";
@@ -192,8 +209,8 @@ export class TestFourComponent implements OnInit {
       this.createButton(choiceSpaceId1, quizQuestions[2].choices[1]);
       this.createButton(choiceSpaceId2, quizQuestions[2].choices[2]);
       choiceSpace.addEventListener("click", (event: Event) => {this.wrongToGetScore()}); 
-      choiceSpace1?.addEventListener("click", (event: Event) => {this.getScore()});
-      choiceSpace2?.addEventListener("click", (event: Event) => {this.wrongToGetScore()});
+      choiceSpace1.addEventListener("click", (event: Event) => {this.getScore()});
+      choiceSpace2.addEventListener("click", (event: Event) => {this.wrongToGetScore()});
     } else{
       console.log("choiceSpaces are NULL");
     }
@@ -202,41 +219,56 @@ export class TestFourComponent implements OnInit {
 
   wrongToGetScore () {
     console.log("you have clicked an answer and been sent to the wrongtoGetScore function");
+    this.score -= 10;
+    this.getScore();
   }
 
   getScore() {
-    console.log("you have clicked the right answer and been sent to getScore");
+    this.pauseTimer();
+    console.log("you're final score at getScore is " + this.score);
     var finalCongrats = document.getElementById("questionSpace");
+    var button = document.getElementById("try-again");
     this.clearQuestion();
 
-    if(finalCongrats){
-      finalCongrats.innerHTML = "Your score is: ______ ! Enter your initials below.";
-    } else {
+    if (!finalCongrats) {
       console.log("finalCongrats is null");
+      return
+    } 
+
+    if (this.timeLeft <= 0) {
+      this.score = 0;
+      finalCongrats.innerHTML = `You ran out of time! Your score is ${this.score}.`;
+    } else if (this.score <= 0) {
+      this.score = 0;
+      finalCongrats.innerHTML = `Your score is ${this.score}! Better luck next time.`;
+    } else {
+      this.score;
+      finalCongrats.innerHTML = `Your score is: ${this.score}! Great Job!`;
     }
 
-  }
-
-  renderTimer(parentId: string, timeLeft: any){
-    var parent = document.getElementById(parentId);
-
-    if (parent != undefined) {
-      var timerDiv = document.createElement("div");
-      timerDiv.innerHTML = timeLeft;
-      timerDiv.classList.add(
-       "white-text"
+    if (button != undefined) {
+      var startOver = document.createElement("button");
+      button.setAttribute("id", "try-again-button");
+      startOver.innerHTML = "Try Again?";
+      startOver.classList.add(
+        "btn",
+        "btn-primary",
+        "answer-buttons"
       );
-      parent.appendChild(timerDiv);
-      return timerDiv;
+      // startOver.addEventListener("click", (event: Event) => {this.clearTimerTryAgain()});
+      startOver.addEventListener("click", (event: Event) => {this.startQuiz()}); 
+      button.appendChild(startOver);
+      return startOver;
     }
     else {
-      console.log("error cant find parent with id"+ parentId);
+      console.log("error cant find parent with id"+ button);
       return null;
     }
+
   }
 
   countDown(){
-
+    this.timeLeft = 35;
     this.interval = setInterval(() => {
       if(this.timeLeft > 0) {
         this.timeLeft--;
@@ -244,14 +276,20 @@ export class TestFourComponent implements OnInit {
         this.timeLeft = 35;
       }
     },1000)
-    console.log("the timer is " + this.timeLeft);
+    setTimeout(() => {this.getScore()},35000);
+//     setTimeout(()=>{
+//       this.saveAsDraft(this.blog);
+//  }, timeInMilliseconds);
+    console.log("the timer is " + this.interval);  
+}
 
-    this.renderTimer("timer", this.timeLeft);
-  }
 
   pauseTimer() {
-    var interval;
-    clearInterval(interval);
-
+    var finalTime = document.getElementById("final-time");
+    clearInterval(this.interval);
+    if (!finalTime) {
+      console.log("finalTime is null");
+      return
+    } 
   }
 }
