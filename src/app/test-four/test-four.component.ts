@@ -241,8 +241,22 @@ export class TestFourComponent implements OnInit {
     } else if (this.score <= 0) {
       this.score = 0;
       finalCongrats.innerHTML = `Your score is ${this.score}! Better luck next time.`;
+      if (button != undefined) {
+        var startOver = document.createElement("button");
+        button.setAttribute("id", "try-again-button");
+        startOver.innerHTML = "Try Again?";
+        startOver.classList.add(
+          "btn",
+          "btn-primary",
+          "answer-buttons"
+        );
+        // startOver.addEventListener("click", (event: Event) => {this.clearTimerTryAgain()});
+        startOver.addEventListener("click", (event: Event) => {this.startQuiz()}); 
+        button.appendChild(startOver);
+        return startOver;
+      }
     } else {
-      this.score;
+      this.score > 0;
       finalCongrats.innerHTML = `Your score is: ${this.score}! Great Job!`;
     }
 
