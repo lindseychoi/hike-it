@@ -1,22 +1,21 @@
-import { BuiltinTypeName } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
 
 // GLOBALS VARIABLES
 //////////////////////////////////////////////////////////////////////
 var quizQuestions =
 [{ 
-  question: "Which of the following provides interactivity on web pages?",
-  choices: ["CSS", "HTML", "JavaScript"],
+  question: "Who was the leader of SG-1 for the first years?",
+  choices: ["Teal'c", "General Hammond", "Jack O'Neill"],
   answer: 2
 },
 {
-  question: "Which of the following adds style to a web page?",
-  choices: ["JavaScript", "CSS", "HTML"],
+  question: "How do you say Stargate in Goa'uld?",
+  choices: ["Chappa'ai", "Ring of the Gods", "Portal"],
   answer: 1
 },
 {
-  question: "Which of the following adds the structure to a web page?",
-  choices: ["JavaScript", "HTML", "CSS"],
+  question: "Who are Earth's main enemies for the first part of the show?",
+  choices: ["Goa'uld", "Tokra", "Replicators"],
   answer: 1
 }];
 
